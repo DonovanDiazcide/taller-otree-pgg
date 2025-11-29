@@ -1,0 +1,42 @@
+venv
+staticfiles
+./db.sqlite3
+.idea
+*~
+*.sqlite3
+_static_root
+_bots*s
+__temp*
+__pycache__/
+*.py[cod]
+.DS_Store
+*.otreezip
+
+# oTree
+__pycache__/
+*.pyc
+db.sqlite3
+.otree/
+_static_root/
+*.csv
+
+# Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+venv/
