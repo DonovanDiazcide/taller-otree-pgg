@@ -1,0 +1,35 @@
+{{ block title }}Preguntas de Comprensión{{ endblock }}
+{{ block content }}
+
+    <h2>Preguntas de Comprensión</h2>
+
+    <p>
+        Por favor responde las siguientes preguntas para demostrar que comprendes las instrucciones del juego.
+        Si respondes incorrectamente, podrás intentar de nuevo.
+    </p>
+
+    <div class="card bg-light mb-3">
+        <div class="card-body">
+            <p><strong>Pregunta 1:</strong> ¿Cuál es tu dotación inicial en puntos?</p>
+            {{ formfield 'q1_endowment' }}
+        </div>
+    </div>
+
+    <div class="card bg-light mb-3">
+        <div class="card-body">
+            <p><strong>Pregunta 2:</strong> ¿Por cuánto se multiplican las contribuciones totales del grupo?</p>
+            {{ formfield 'q2_multiplier' }}
+        </div>
+    </div>
+
+    <div class="card bg-light mb-3">
+        <div class="card-body">
+            <p><strong>Pregunta 3:</strong> Si todos en el grupo ({{ C.PLAYERS_PER_GROUP }} jugadores) contribuyen {{ C.ENDOWMENT }} puntos, 
+            ¿cuántos puntos recibirá cada jugador del fondo común?</p>
+            {{ formfield 'q3_full_contribution' }}
+        </div>
+    </div>
+
+    <button class="otree-btn-next btn btn-primary">Validar Respuestas</button>
+
+{{ endblock }}
