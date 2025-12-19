@@ -62,8 +62,8 @@ class Comprehension(Page):
     
     def error_message(player, values):
         solutions = dict(
-            q1_endowment=int(C.ENDOWMENT),
-            q2_multiplier=float(C.MULTIPLIER),
+            q1_endowment=100,  # Direct integer comparison
+            q2_multiplier=1.8,  # Float comparison works in oTree
             q3_payoff=115,  # 100 - 30 + 45 = 115
         )
         
