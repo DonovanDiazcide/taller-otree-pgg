@@ -53,28 +53,32 @@ class Comprehension(Page):
         solutions = dict(
             q1_endowment=C.ENDOWMENT,
             q2_multiplier=C.MULTIPLIER,
-            q3_total_payoff=(C.ENDOWMENT * C.PLAYERS_PER_GROUP * C.MULTIPLIER) / C.PLAYERS_PER_GROUP,
+            q3_total_payoff=C.ENDOWMENT * C.MULTIPLIER,
         )
+        
+        # Map field names to their short variable names for the template
+        field_to_var = {
+            'q1_endowment': 'q1',
+            'q2_multiplier': 'q2',
+            'q3_total_payoff': 'q3',
+        }
 
         errors = {}
         # Store which answers are correct for displaying success messages
-        player.participant.vars['q1_correct'] = values['q1_endowment'] == solutions['q1_endowment']
-        player.participant.vars['q2_correct'] = values['q2_multiplier'] == solutions['q2_multiplier']
-        player.participant.vars['q3_correct'] = values['q3_total_payoff'] == solutions['q3_total_payoff']
-        
-        for field_name, expected_value in solutions.items():
-            if values[field_name] != expected_value:
+        for field_name in solutions:
+            var_name = field_to_var[field_name]
+            player.participant.vars[f'{var_name}_correct'] = values[field_name] == solutions[field_name]
+            if values[field_name] != solutions[field_name]:
                 errors[field_name] = f'❌ Incorrecto. Por favor, intenta de nuevo.'
 
         return errors
 
     def vars_for_template(player):
         # Get the correct answer flags from participant.vars (set in error_message)
-        return dict(
-            q1_correct=player.participant.vars.get('q1_correct', False),
-            q2_correct=player.participant.vars.get('q2_correct', False),
-            q3_correct=player.participant.vars.get('q3_correct', False),
-        )
+        return {
+            f'q{i}_correct': player.participant.vars.get(f'q{i}_correct', False)
+            for i in [1, 2, 3]
+        }
 
 
 class Contribute(Page):
