@@ -1,0 +1,55 @@
+{{ extends "global/Page.html" }}
+{{ block title }}Instructions{{ endblock }}
+{{ block content }}
+
+    <h3>Welcome to the Public Goods Game</h3>
+    
+    <p>
+        In this experiment, you will be part of a group of <strong>{{ C.PLAYERS_PER_GROUP }} players</strong>.
+    </p>
+
+    <h4>Your Endowment</h4>
+    <p>
+        You will receive an initial endowment of <strong>{{ C.ENDOWMENT }}</strong> points.
+    </p>
+
+    <h4>How the Game Works</h4>
+    <p>
+        You must decide how much of your endowment to contribute to a group project. 
+        You can contribute any amount between 0 and {{ C.ENDOWMENT }} points.
+    </p>
+
+    <h4>Group Project Returns</h4>
+    <p>
+        All contributions made by group members will be added together and multiplied by an 
+        <strong>efficiency factor of {{ C.MULTIPLIER }}</strong>. The resulting amount will then be 
+        divided equally among all {{ C.PLAYERS_PER_GROUP }} group members, regardless of how much 
+        each person contributed.
+    </p>
+
+    <h4>Calculating Your Payoff</h4>
+    <p>
+        Your final payoff will be calculated as:
+    </p>
+    <p class="alert alert-info">
+        <strong>Your Payoff = </strong> Your endowment - Your contribution + Your share from the group project
+    </p>
+
+    <h4>Example</h4>
+    <p>
+        If everyone in the group contributes 50 points:
+    </p>
+    <ul>
+        <li>Total contributions = 3 × 50 = 150 points</li>
+        <li>Multiplied amount = 150 × 1.8 = 270 points</li>
+        <li>Each person's share = 270 ÷ 3 = 90 points</li>
+        <li>Your payoff = 100 - 50 + 90 = 140 points</li>
+    </ul>
+
+    <p>
+        <strong>Note:</strong> Your decisions are anonymous. Other group members will not know your identity or your specific contribution.
+    </p>
+
+    {{ next_button }}
+
+{{ endblock }}
