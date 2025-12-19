@@ -21,6 +21,20 @@ class Player(BasePlayer):
     contribution = models.CurrencyField(
         min=0, max=C.ENDOWMENT, label="How much will you contribute?"
     )
+    
+    # Comprehension question fields
+    q1_endowment = models.IntegerField(
+        label="Tu respuesta:",
+        min=0
+    )
+    q2_multiplier = models.FloatField(
+        label="Tu respuesta:",
+        min=0
+    )
+    q3_full_contribution = models.IntegerField(
+        label="Tu respuesta:",
+        min=0
+    )
 
 
 # FUNCTIONS
@@ -36,6 +50,33 @@ def set_payoffs(group: Group):
 
 
 # PAGES
+class Introduction(Page):
+    pass
+
+
+class Comprehension(Page):
+    form_model = 'player'
+    form_fields = ['q1_endowment', 'q2_multiplier', 'q3_full_contribution']
+    
+    def error_message(player, values):
+        errors = {}
+        
+        # Check question 1: endowment should be 100
+        if values['q1_endowment'] != C.ENDOWMENT:
+            errors['q1_endowment'] = '❌ Respuesta incorrecta. Por favor intenta de nuevo.'
+        
+        # Check question 2: multiplier should be 1.8
+        if values['q2_multiplier'] != C.MULTIPLIER:
+            errors['q2_multiplier'] = '❌ Respuesta incorrecta. Por favor intenta de nuevo.'
+        
+        # Check question 3: if everyone contributes 100, each gets (300 * 1.8) / 3 = 180
+        expected_share = (C.ENDOWMENT * C.PLAYERS_PER_GROUP * C.MULTIPLIER) / C.PLAYERS_PER_GROUP
+        if values['q3_full_contribution'] != expected_share:
+            errors['q3_full_contribution'] = '❌ Respuesta incorrecta. Por favor intenta de nuevo.'
+        
+        return errors
+
+
 class Contribute(Page):
     form_model = 'player'
     form_fields = ['contribution']
@@ -49,4 +90,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [Contribute, ResultsWaitPage, Results]
+page_sequence = [Introduction, Comprehension, Contribute, ResultsWaitPage, Results]

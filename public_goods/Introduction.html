@@ -1,0 +1,49 @@
+{{ block title }}Bienvenido{{ endblock }}
+{{ block content }}
+
+    <h2>Bienvenido al Juego de Bienes Públicos</h2>
+
+    <h3>Instrucciones</h3>
+
+    <p>
+        En este experimento, participarás en un juego de bienes públicos con {{ C.PLAYERS_PER_GROUP }} jugadores por grupo.
+    </p>
+
+    <p>
+        Cada jugador recibe una dotación inicial de <strong>{{ C.ENDOWMENT }}</strong> puntos.
+    </p>
+
+    <p>
+        Deberás decidir cuánto de tu dotación deseas contribuir a un fondo común del grupo.
+        Puedes contribuir cualquier cantidad entre 0 y {{ C.ENDOWMENT }} puntos.
+    </p>
+
+    <p>
+        Todas las contribuciones al fondo común se multiplicarán por <strong>{{ C.MULTIPLIER }}</strong> 
+        y luego se dividirán equitativamente entre todos los {{ C.PLAYERS_PER_GROUP }} miembros del grupo.
+    </p>
+
+    <p>
+        Tu ganancia final será:
+    </p>
+
+    <p style="text-align: center; font-size: 1.2em;">
+        <strong>Ganancia = Dotación - Tu contribución + Participación del fondo común</strong>
+    </p>
+
+    <p>
+        Donde la participación del fondo común es:
+    </p>
+
+    <p style="text-align: center; font-size: 1.2em;">
+        <strong>(Total de contribuciones × {{ C.MULTIPLIER }}) / {{ C.PLAYERS_PER_GROUP }}</strong>
+    </p>
+
+    <p>
+        Por favor, lee estas instrucciones cuidadosamente. En la siguiente página, 
+        responderás algunas preguntas para asegurarnos de que entiendes el juego.
+    </p>
+
+    {{ next_button }}
+
+{{ endblock }}
