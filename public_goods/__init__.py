@@ -21,13 +21,13 @@ class Player(BasePlayer):
     contribution = models.CurrencyField(
         min=0, max=C.ENDOWMENT, label="How much will you contribute?"
     )
-    q1_endowment = models.IntegerField(
+    q1_endowment = models.CurrencyField(
         label="¿Cuál es la dotación inicial que recibe cada jugador?"
     )
     q2_multiplier = models.FloatField(
         label="¿Cuál es el factor de multiplicación aplicado a las contribuciones totales?"
     )
-    q3_total_payoff = models.FloatField(
+    q3_total_payoff = models.CurrencyField(
         label="Si cada jugador contribuye toda su dotación, ¿cuánto recibirá cada jugador del fondo común?"
     )
 
