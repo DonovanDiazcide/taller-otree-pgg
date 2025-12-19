@@ -29,7 +29,8 @@ class Player(BasePlayer):
     )
     q2_multiplier = models.FloatField(
         label="Tu respuesta:",
-        min=0
+        min=0,
+        max=10
     )
     q3_full_contribution = models.IntegerField(
         label="Tu respuesta:",
@@ -65,8 +66,8 @@ class Comprehension(Page):
         if values['q1_endowment'] != C.ENDOWMENT:
             errors['q1_endowment'] = '❌ Respuesta incorrecta. Por favor intenta de nuevo.'
         
-        # Check question 2: multiplier should be 1.8
-        if values['q2_multiplier'] != C.MULTIPLIER:
+        # Check question 2: multiplier should be 1.8 (with tolerance for floating point)
+        if abs(values['q2_multiplier'] - float(C.MULTIPLIER)) > 0.01:
             errors['q2_multiplier'] = '❌ Respuesta incorrecta. Por favor intenta de nuevo.'
         
         # Check question 3: if everyone contributes 100, each gets (300 * 1.8) / 3 = 180
