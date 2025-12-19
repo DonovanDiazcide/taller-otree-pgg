@@ -1,0 +1,38 @@
+{{ extends "global/Page.html" }}
+{{ block title }}Preguntas de Comprensión{{ endblock }}
+{{ block content }}
+
+    <p>
+        Por favor, responde las siguientes preguntas para asegurarte de que comprendes el juego.
+        Los parámetros del juego son:
+    </p>
+    <ul>
+        <li>Dotación inicial: {{ C.ENDOWMENT }}</li>
+        <li>Jugadores por grupo: {{ C.PLAYERS_PER_GROUP }}</li>
+        <li>Factor de multiplicación: {{ C.MULTIPLIER }}</li>
+    </ul>
+
+    <div class="mb-3">
+        {{ formfield 'q1_endowment' }}
+        {% if q1_correct %}
+            <div class="alert alert-success mt-2">✓ Respuesta correcta</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        {{ formfield 'q2_multiplier' }}
+        {% if q2_correct %}
+            <div class="alert alert-success mt-2">✓ Respuesta correcta</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        {{ formfield 'q3_total_payoff' }}
+        {% if q3_correct %}
+            <div class="alert alert-success mt-2">✓ Respuesta correcta</div>
+        {% endif %}
+    </div>
+
+    {{ next_button }}
+
+{{ endblock }}
