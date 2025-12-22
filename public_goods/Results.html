@@ -39,6 +39,18 @@
   </table>
 </div>
 
+<div class="results-card">
+  <h3 class="results-title">Bar chart of contributions</h3>
+  <canvas id="contribChart" height="120"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Datos listos para usarse en el gráfico (se dibuja en la tarea 4)
+  const labels = {{ chart_labels_json|safe }};
+  const values = {{ chart_values_json|safe }};
+</script>
+
 {{ next_button }}
 
 {{ endblock }}
