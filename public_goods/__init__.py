@@ -24,24 +24,8 @@ class Player(BasePlayer):
 
 
 # FUNCTIONS
-def get_config_value(obj_or_session, key, default=None, *, cast=None, required=False):
-  session = getattr(obj_or_session, "session", obj_or_session)
-    config = getattr(session, "config", {}) or {}
-     if key in config:
-        value = config[key]
-    else:
-        value = default
-
-    if value is None and required:
-        raise ValueError(f"Missing required session config key: {key}")
-
-    if cast is not None and value is not None:
-        try:
-            value = cast(value)
-        except Exception as e:
-            raise ValueError(f"Could not cast config key '{key}' value {value!r}") from e
-
-    return value
+def get_config_value(session, key, default):
+    return session.config.get(key, default)
 
 def set_payoffs(group: Group):
     players = group.get_players()
@@ -58,7 +42,20 @@ def set_payoffs(group: Group):
 class Contribute(Page):
     form_model = 'player'
     form_fields = ['contribution']
+ def vars_for_template(self):
 
+        treatment = get_config_value(self, 'treatment', default='baseline')
+        multiplier = get_config_value(self, 'multiplier', default=C.MULTIPLIER, cast=float)
+        note_players_per_group = C.PLAYERS_PER_GROUP
+        mpcr = multiplier / note_players_per_group
+
+        return dict(
+            treatment=treatment,
+            multiplier=multiplier,
+            mpcr=mpcr,
+            endowment=C.ENDOWMENT,
+            players_per_group=note_players_per_group,
+        )
 
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
