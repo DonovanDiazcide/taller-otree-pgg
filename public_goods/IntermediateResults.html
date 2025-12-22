@@ -1,0 +1,60 @@
+{{ block title }}Resultados de la Ronda - Antes del Castigo{{ endblock }}
+            </thead>
+            <tbody>
+                {% for p in players_info %}
+                <tr {% if p.id_in_group == player.id_in_group %}class="table-warning"{% endif %}>
+                    <td>
+                        <strong>Jugador {{ p.id_in_group }}</strong>
+                        {% if p.id_in_group == player.id_in_group %}
+                            <span class="badge badge-warning">Tú</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ p.contribution }}</td>
+                    <td>{{ p.payoff_before_punishment }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Tu Ganancia Detallada -->
+<div class="card mb-4 border-warning">
+    <div class="card-header bg-warning">
+        <h4 class="mb-0">Tu Ganancia en Esta Ronda (Antes del Castigo)</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <p class="mb-1"><small>Dotación Inicial</small></p>
+                <p class="h4">{{ C.ENDOWMENT }}</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <p class="mb-1"><small>Tu Contribución</small></p>
+                <p class="h4 text-danger">- {{ my_contribution }}</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <p class="mb-1"><small>Participación del Fondo</small></p>
+                <p class="h4 text-success">+ {{ individual_share }}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center">
+            <p class="mb-1"><strong>Ganancia Total (antes del castigo):</strong></p>
+            <p class="h2 text-primary">{{ my_payoff_before_punishment }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Información sobre la siguiente fase -->
+<div class="alert alert-info">
+    <h5><i class="fas fa-info-circle"></i> Siguiente Fase: Asignación de Castigos</h5>
+    <p class="mb-0">
+        En la siguiente pantalla, tendrás la oportunidad de asignar puntos de castigo 
+        a otros miembros del grupo si lo deseas. Recuerda que castigar tiene un costo para ti.
+    </p>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
