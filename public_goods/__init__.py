@@ -255,6 +255,101 @@ class PunishmentWaitPage(WaitPage):
     title_text = "Por favor espera"
     body_text = "Esperando a que todos los jugadores asignen sus castigos..."
 
+# Página de resultados finales con desglose del castigo
+class FinalResults(Page):
+    """
+    Página que muestra los resultados finales del experimento
+    incluyendo el desglose completo del sistema de castigo.
+    """
+    
+    def vars_for_template(player: Player):
+        """
+        Prepara todas las variables necesarias para mostrar
+        el desglose detallado de ganancias y castigos.
+        """
+        group = player.group
+        
+        # Información de todos los jugadores para la tabla
+        players_info = []
+        for p in group.get_players():
+            # Calcular ganancia antes del castigo (endowment - contribución + participación)
+            payoff_before_punishment = C.ENDOWMENT - p.contribution + group.individual_share
+            
+            # Calcular total de castigos dados por este jugador
+            punishment_given = 0
+            for other in group.get_players():
+                if other.id_in_group != p.id_in_group:
+                    punishment_field = getattr(p, f'punishment_to_{other.id_in_group}', 0)
+                    if punishment_field is None:
+                        punishment_field = 0
+                    punishment_given += punishment_field
+            
+            players_info.append({
+                'id_in_group': p.id_in_group,
+                'contribution': p.contribution,
+                'payoff_before_punishment': payoff_before_punishment,
+                'punishment_given': punishment_given,
+                'punishment_cost': p.punishment_cost_paid,
+                'punishment_received': p.total_punishment_received,
+                'punishment_effect': p.total_punishment_received * C.PUNISHMENT_EFFECT,
+                'final_payoff': p.payoff,
+            })
+        
+        # Calcular información específica del jugador actual
+        my_payoff_before_punishment = C.ENDOWMENT - player.contribution + group.individual_share
+        
+        # Calcular castigos dados por el jugador actual a cada otro jugador
+        my_punishments_given = []
+        for other in group.get_players():
+            if other.id_in_group != player.id_in_group:
+                punishment_amount = getattr(player, f'punishment_to_{other.id_in_group}', 0)
+                if punishment_amount is None:
+                    punishment_amount = 0
+                if punishment_amount > 0:  # Solo mostrar si hubo castigo
+                    my_punishments_given.append({
+                        'target_id': other.id_in_group,
+                        'amount': punishment_amount,
+                        'cost': punishment_amount * C.PUNISHMENT_COST,
+                    })
+        
+        # Calcular castigos recibidos por el jugador actual de cada otro jugador
+        my_punishments_received = []
+        for other in group.get_players():
+            if other.id_in_group != player.id_in_group:
+                punishment_amount = getattr(other, f'punishment_to_{player.id_in_group}', 0)
+                if punishment_amount is None:
+                    punishment_amount = 0
+                if punishment_amount > 0:  # Solo mostrar si hubo castigo
+                    my_punishments_received.append({
+                        'from_id': other.id_in_group,
+                        'amount': punishment_amount,
+                        'effect': punishment_amount * C.PUNISHMENT_EFFECT,
+                    })
+        
+        return dict(
+            players_info=players_info,
+            # Información del grupo
+            total_contribution=group.total_contribution,
+            individual_share=group.individual_share,
+            # Información del jugador actual - Fase 1
+            my_contribution=player.contribution,
+            my_payoff_before_punishment=my_payoff_before_punishment,
+            # Información del jugador actual - Castigos dados
+            my_punishments_given=my_punishments_given,
+            my_total_punishment_cost=player.punishment_cost_paid,
+            # Información del jugador actual - Castigos recibidos
+            my_punishments_received=my_punishments_received,
+            my_total_punishment_received=player.total_punishment_received,
+            my_total_punishment_effect=player.total_punishment_received * C.PUNISHMENT_EFFECT,
+            # Ganancia final
+            my_final_payoff=player.payoff,
+            # Constantes para referencia
+            endowment=C.ENDOWMENT,
+            multiplier=C.MULTIPLIER,
+            punishment_cost=C.PUNISHMENT_COST,
+            punishment_effect=C.PUNISHMENT_EFFECT,
+        )
+
 class Results(Page):
     pass
 
