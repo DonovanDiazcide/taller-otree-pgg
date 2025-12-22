@@ -7,6 +7,10 @@ class C(BaseConstants):
     ENDOWMENT = cu(100)
     MULTIPLIER = 1.8
 
+    # Constantes del sistema de castigo
+    PUNISHMENT_COST = cu(1)        # Costo para quien castiga: 1 punto por cada punto de castigo
+    PUNISHMENT_EFFECT = cu(3)      # Efecto en el castigado: pierde 3 puntos por cada punto de castigo recibido
+    MAX_PUNISHMENT = 10            # Máximo de puntos de castigo que se pueden asignar a un jugador
 
 class Subsession(BaseSubsession):
     pass
