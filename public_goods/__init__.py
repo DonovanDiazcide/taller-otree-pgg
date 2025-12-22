@@ -67,9 +67,32 @@ class Introduction(Page):
     pass
 
 class Comprehension(Page):
+    """Página de preguntas de comprensión con validación"""
     form_model = 'player'
     form_fields = ['comp_q1', 'comp_q2', 'comp_q3']
-
+    
+    @staticmethod
+    def error_message(player, values):
+        # Respuestas correctas
+        soluciones = {
+            'comp_q1': 100,  # Dotación inicial
+            'comp_q2': 150,  # 3 jugadores × 50 = 150
+            'comp_q3': 100,  # 300 ÷ 3 = 100
+        }
+        
+        errores = []
+        
+        if values['comp_q1'] != soluciones['comp_q1']:
+            errores.append("Pregunta 1: La respuesta correcta es 100 puntos.")
+        
+        if values['comp_q2'] != soluciones['comp_q2']:
+            errores.append("Pregunta 2: Recuerda que hay 3 jugadores y cada uno contribuye 50.")
+        
+        if values['comp_q3'] != soluciones['comp_q3']:
+            errores.append("Pregunta 3: El fondo se divide equitativamente entre los 3 jugadores.")
+        
+        if errores:
+            return ' '.join(errores)
 class Contribute(Page):
     form_model = 'player'
     form_fields = ['contribution']
