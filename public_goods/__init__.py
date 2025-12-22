@@ -354,4 +354,11 @@ class Results(Page):
     pass
 
 
-page_sequence = [Contribute, ResultsWaitPage, Results]
+page_sequence = [
+    Contribute,             # Decisión de contribución al fondo común
+    ResultsWaitPage,        # Espera mientras se calculan las contribuciones
+    IntermediateResults,    # Muestra resultados ANTES del castigo
+    Punishment,             # Asignación de castigos a otros jugadores
+    PunishmentWaitPage,     # Espera mientras todos asignan castigos
+    FinalResults,           # Muestra resultados FINALES con desglose del castigo
+]
