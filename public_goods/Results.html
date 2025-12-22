@@ -44,12 +44,30 @@
   <canvas id="contribChart" height="120"></canvas>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   // Datos listos para usarse en el gráfico (se dibuja en la tarea 4)
   const labels = {{ chart_labels_json|safe }};
   const values = {{ chart_values_json|safe }};
+
+  const ctx = document.getElementById('contribChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Contribution',
+        data: values,
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
 </script>
+
 
 {{ next_button }}
 
