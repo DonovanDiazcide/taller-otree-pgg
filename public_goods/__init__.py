@@ -18,24 +18,35 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    # Campo de contribución (ya existente)
     contribution = models.CurrencyField(
-        min=0, max=C.ENDOWMENT, label="How much will you contribute?"
+        min=0,
+        max=C.ENDOWMENT,
+        label="¿Cuánto quieres contribuir al fondo común?"
     )
-     # Pregunta de comprensión 1
+    
+    # NUEVOS CAMPOS: Preguntas de comprensión
     comp_q1 = models.IntegerField(
-        #models.IntegerField indica que el usuario debe responder con un número entero
-        label="¿Cuántos puntos recibe cada jugador por cada punto aportado al fondo?",
-        #label es el texto que ve el participante
+        label="¿Cuántos puntos recibe cada jugador al inicio de la ronda?"
     )
-
-    # Pregunta de comprensión 2
+    
     comp_q2 = models.IntegerField(
-        label="Si los 3 jugadores aportan 50 cada uno, ¿cuánto hay en el fondo común?",
+        label="Si los 3 jugadores contribuyen 50 puntos cada uno, ¿cuánto habrá en el fondo común ANTES de multiplicar?",
         choices=[
-            [50, '50'],
-            [100, '100'],
-            [150, '150'],
-            [200, '200'],
+            [50, '50 puntos'],
+            [100, '100 puntos'],
+            [150, '150 puntos'],
+            [200, '200 puntos'],
+        ]
+    )
+    
+    comp_q3 = models.IntegerField(
+        label="Si el fondo común tiene 300 puntos después de multiplicar, ¿cuánto recibe CADA jugador del fondo?",
+        choices=[
+            [50, '50 puntos'],
+            [100, '100 puntos'],
+            [150, '150 puntos'],
+            [300, '300 puntos'],
         ]
     )
 
@@ -52,6 +63,13 @@ def set_payoffs(group: Group):
 
 
 # PAGES
+class Introduction(Page):
+    pass
+
+class Comprehension(Page):
+    form_model = 'player'
+    form_fields = ['comp_q1', 'comp_q2', 'comp_q3']
+
 class Contribute(Page):
     form_model = 'player'
     form_fields = ['contribution']
@@ -63,6 +81,8 @@ class ResultsWaitPage(WaitPage):
 
 class Results(Page):
     pass
+
+
 
 
 page_sequence = [Contribute, ResultsWaitPage, Results]
