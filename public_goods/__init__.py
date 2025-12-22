@@ -3,7 +3,7 @@ from otree.api import *
 class C(BaseConstants):
     NAME_IN_URL = 'public_goods_simple'
     PLAYERS_PER_GROUP = 3
-    NUM_ROUNDS = 1
+    NUM_ROUNDS = 4
     ENDOWMENT = cu(100)
     MULTIPLIER = 1.8
 
@@ -21,7 +21,23 @@ class Player(BasePlayer):
     contribution = models.CurrencyField(
         min=0, max=C.ENDOWMENT, label="How much will you contribute?"
     )
+     # Pregunta de comprensión 1
+    comp_q1 = models.IntegerField(
+        #models.IntegerField indica que el usuario debe responder con un número entero
+        label="¿Cuántos puntos recibe cada jugador por cada punto aportado al fondo?",
+        #label es el texto que ve el participante
+    )
 
+    # Pregunta de comprensión 2
+    comp_q2 = models.IntegerField(
+        label="Si los 3 jugadores aportan 50 cada uno, ¿cuánto hay en el fondo común?",
+        choices=[
+            [50, '50'],
+            [100, '100'],
+            [150, '150'],
+            [200, '200'],
+        ]
+    )
 
 # FUNCTIONS
 def set_payoffs(group: Group):
