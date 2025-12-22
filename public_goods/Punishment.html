@@ -1,0 +1,129 @@
+{{ block title }}Asignación de Castigos{{ endblock }}
+
+{{ block content }}
+
+<div class="card mb-4">
+    <div class="card-header bg-warning text-dark">
+        <h3 class="mb-0"><i class="fas fa-gavel"></i> Fase de Castigo</h3>
+    </div>
+    <div class="card-body">
+        <p class="lead">
+            Ahora puedes asignar puntos de castigo a otros miembros de tu grupo si lo deseas.
+        </p>
+        <div class="alert alert-info">
+            <strong>Información importante sobre el castigo:</strong>
+            <ul class="mb-0">
+                <li>Cada punto de castigo que asignes te cuesta <strong>{{ punishment_cost }}</strong> punto(s)</li>
+                <li>Cada punto de castigo reduce la ganancia del jugador castigado en <strong>{{ punishment_effect }}</strong> puntos</li>
+                <li>Puedes asignar entre 0 y <strong>{{ max_punishment }}</strong> puntos de castigo a cada jugador</li>
+                <li>Tu ganancia actual es <strong>{{ my_payoff_before_punishment }}</strong> puntos</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Tabla con información de otros jugadores -->
+<div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+        <h4 class="mb-0">Contribuciones de Otros Jugadores</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Jugador</th>
+                    <th>Contribución</th>
+                    <th>Ganancia (antes del castigo)</th>
+                    <th>Puntos de Castigo a Asignar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in other_players_info %}
+                <tr>
+                    <td><strong>Jugador {{ p.id_in_group }}</strong></td>
+                    <td>{{ p.contribution }}</td>
+                    <td>{{ p.payoff_before_punishment }}</td>
+                    <td style="width: 200px;">
+                        {{ formfield 'punishment_to_'|add:p.id_in_group label='' }}
+                        <small class="form-text text-muted">
+                            0 - {{ max_punishment }} puntos
+                        </small>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Calculadora de costos -->
+<div class="card mb-4 border-warning">
+    <div class="card-header bg-warning text-dark">
+        <h4 class="mb-0"><i class="fas fa-calculator"></i> Calculadora de Costos</h4>
+    </div>
+    <div class="card-body">
+        <p>Usa esta calculadora para estimar el costo de tus castigos:</p>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Total de puntos de castigo:</label>
+                <input type="number" id="calc-punishment" class="form-control" min="0" value="0">
+            </div>
+            <div class="col-md-4">
+                <label>Costo para ti:</label>
+                <input type="text" id="calc-cost" class="form-control" readonly>
+            </div>
+            <div class="col-md-4">
+                <label>Tu ganancia después del costo:</label>
+                <input type="text" id="calc-remaining" class="form-control" readonly>
+            </div>
+        </div>
+        <small class="text-muted mt-2 d-block">
+            * Esta calculadora solo considera el costo de castigar, no incluye castigos que puedas recibir de otros.
+        </small>
+    </div>
+</div>
+
+<!-- Advertencia -->
+<div class="alert alert-warning">
+    <h5><i class="fas fa-exclamation-triangle"></i> Recuerda</h5>
+    <p class="mb-0">
+        El castigo es costoso para ti y para quien lo recibe. Usa esta opción estratégicamente.
+        Si decides no castigar a nadie, simplemente deja todos los campos en 0.
+    </p>
+</div>
+
+{{ next_button }}
+
+<!-- JavaScript para la calculadora -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const calcInput = document.getElementById('calc-punishment');
+    const calcCost = document.getElementById('calc-cost');
+    const calcRemaining = document.getElementById('calc-remaining');
+    const myPayoff = {{ my_payoff_before_punishment }};
+    const punishmentCost = {{ punishment_cost }};
+    
+    calcInput.addEventListener('input', function() {
+        const totalPunishment = parseInt(this.value) || 0;
+        const cost = totalPunishment * punishmentCost;
+        const remaining = myPayoff - cost;
+        
+        calcCost.value = cost + ' puntos';
+        calcRemaining.value = remaining + ' puntos';
+        
+        // Cambiar color si el costo excede la ganancia
+        if (remaining < 0) {
+            calcRemaining.style.color = 'red';
+            calcRemaining.style.fontWeight = 'bold';
+        } else {
+            calcRemaining.style.color = 'green';
+            calcRemaining.style.fontWeight = 'bold';
+        }
+    });
+    
+    // Inicializar
+    calcInput.dispatchEvent(new Event('input'));
+});
+</script>
+
+{{ endblock }}
