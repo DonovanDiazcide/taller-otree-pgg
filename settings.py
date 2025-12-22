@@ -12,16 +12,19 @@ SESSION_CONFIGS = [
         display_name='Public Goods (High MPCR)',
         num_demo_participants=3,
         app_sequence=['public_goods'],
-        treatment='High_mpcr',
-        multiplier=2.4,
+
+        endowment=100, 
+        multiplier=2.0,
+        players_per_group=3, 
     ),
         dict(
         name='public_goods_low_mpcr',
         display_name='Public Goods (Low MPCR)',
         num_demo_participants=3,
         app_sequence=['public_goods'],
-        treatment='Low_mpcr',
+        endowment=100,
         multiplier=1.2,
+        players_per_group=3,
     ),
 
 ]
