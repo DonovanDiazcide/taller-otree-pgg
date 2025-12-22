@@ -68,6 +68,28 @@
   });
 </script>
 
+<div class="results-card">
+  <h3 class="results-title">Step-by-step payoff calculation</h3>
+
+  <ul class="breakdown">
+    <li>Endowment: <b>{{ breakdown.endowment }}</b></li>
+    <li>Your contribution: <b>{{ breakdown.your_contribution }}</b></li>
+    <li>Total group contribution: <b>{{ breakdown.total_contribution }}</b></li>
+    <li>Multiplier: <b>{{ breakdown.multiplier }}</b></li>
+    <li>Players in group: <b>{{ breakdown.players_per_group }}</b></li>
+
+    <li>
+      Your share of the public return: <b>{{ breakdown.individual_share }}</b>
+      <div class="formula">(Total × Multiplier) ÷ Players</div>
+    </li>
+
+    <li>
+      <b>Your payoff: {{ breakdown.payoff }}</b>
+      <div class="formula">Endowment − Your contribution + Your share</div>
+    </li>
+  </ul>
+</div>
+
 
 {{ next_button }}
 
