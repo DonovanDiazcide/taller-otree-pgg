@@ -44,7 +44,13 @@
                     <td>{{ p.contribution }}</td>
                     <td>{{ p.payoff_before_punishment }}</td>
                     <td style="width: 200px;">
-                        {{ formfield 'punishment_to_'|add:p.id_in_group label='' }}
+                        {% if p.id_in_group == 1 %}
+                            {{ formfield 'punishment_to_1' label='' }}
+                        {% elif p.id_in_group == 2 %}
+                            {{ formfield 'punishment_to_2' label='' }}
+                        {% elif p.id_in_group == 3 %}
+                            {{ formfield 'punishment_to_3' label='' }}
+                        {% endif %}
                         <small class="form-text text-muted">
                             0 - {{ max_punishment }} puntos
                         </small>
