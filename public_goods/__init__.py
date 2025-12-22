@@ -108,4 +108,4 @@ class Results(Page):
 
 
 
-page_sequence = [Contribute, ResultsWaitPage, Results]
+page_sequence = [Introduction, Comprehension, Contribute, ResultsWaitPage, Results]
