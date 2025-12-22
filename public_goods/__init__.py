@@ -28,14 +28,20 @@ def get_config_value(session, key, default):
     return session.config.get(key, default)
 
 def set_payoffs(group: Group):
+    session = group.session
+    
+    endowment = get_config_value(session, 'endowment', C.ENDOWMENT)
+    multiplier = get_config_value(session, 'multiplier', C.MULTIPLIER)
+    n_players = get_config_value(session, 'players_per_group', C.PLAYERS_PER_GROUP)
+    
     players = group.get_players()
     contributions = [p.contribution for p in players]
+    
     group.total_contribution = sum(contributions)
-    multiplier = get_config_value(group, 'multiplier', default=C.MULTIPLIER, cast=float)
-    n_players = len(players)
-    group.individual_share = group.total_contribution * multiplier / n_players
+    group.individual_share = (group.total_contribution * multiplier) / n_players
+    
     for p in players:
-        p.payoff = C.ENDOWMENT - p.contribution + group.individual_share
+        p.payoff = endowment - p.contribution + group.individual_share
 
 
 # PAGES
