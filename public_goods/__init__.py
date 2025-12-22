@@ -25,7 +25,38 @@ class Player(BasePlayer):
     contribution = models.CurrencyField(
         min=0, max=C.ENDOWMENT, label="How much will you contribute?"
     )
-
+    # Campos de puntos de castigo asignados a otros jugadores
+    # Cada jugador puede castigar a los otros miembros de su grupo
+    punishment_to_1 = models.IntegerField(
+        min=0,
+        max=C.MAX_PUNISHMENT,
+        initial=0,
+        label="Puntos de castigo para Jugador 1"
+    )
+    
+    punishment_to_2 = models.IntegerField(
+        min=0,
+        max=C.MAX_PUNISHMENT,
+        initial=0,
+        label="Puntos de castigo para Jugador 2"
+    )
+    
+    punishment_to_3 = models.IntegerField(
+        min=0,
+        max=C.MAX_PUNISHMENT,
+        initial=0,
+        label="Puntos de castigo para Jugador 3"
+    )
+    
+    # Campo para registrar el castigo total recibido de otros jugadores
+    total_punishment_received = models.IntegerField(
+        initial=0
+    )
+    
+    # Campo para registrar el costo pagado por castigar a otros
+    punishment_cost_paid = models.CurrencyField(
+        initial=0
+    )
 
 # FUNCTIONS
 def set_payoffs(group: Group):
