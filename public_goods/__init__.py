@@ -24,13 +24,32 @@ class Player(BasePlayer):
 
 
 # FUNCTIONS
+def get_config_value(obj_or_session, key, default=None, *, cast=None, required=False):
+  session = getattr(obj_or_session, "session", obj_or_session)
+    config = getattr(session, "config", {}) or {}
+     if key in config:
+        value = config[key]
+    else:
+        value = default
+
+    if value is None and required:
+        raise ValueError(f"Missing required session config key: {key}")
+
+    if cast is not None and value is not None:
+        try:
+            value = cast(value)
+        except Exception as e:
+            raise ValueError(f"Could not cast config key '{key}' value {value!r}") from e
+
+    return value
+
 def set_payoffs(group: Group):
     players = group.get_players()
     contributions = [p.contribution for p in players]
     group.total_contribution = sum(contributions)
-    group.individual_share = (
-        group.total_contribution * C.MULTIPLIER / C.PLAYERS_PER_GROUP
-    )
+    multiplier = get_config_value(group, 'multiplier', default=C.MULTIPLIER, cast=float)
+    n_players = len(players)
+    group.individual_share = group.total_contribution * multiplier / n_players
     for p in players:
         p.payoff = C.ENDOWMENT - p.contribution + group.individual_share
 
