@@ -46,22 +46,28 @@ def set_payoffs(group: Group):
 
 # PAGES
 class Contribute(Page):
+    """Página donde el jugador decide su contribución"""
     form_model = 'player'
     form_fields = ['contribution']
- def vars_for_template(self):
-
-        treatment = get_config_value(self, 'treatment', default='baseline')
-        multiplier = get_config_value(self, 'multiplier', default=C.MULTIPLIER, cast=float)
-        note_players_per_group = C.PLAYERS_PER_GROUP
-        mpcr = multiplier / note_players_per_group
-
+    
+    @staticmethod
+    def vars_for_template(player):
+        """Pasa los parámetros del tratamiento al template"""
+        session = player.session
+        endowment = get_config_value(session, 'endowment', C.ENDOWMENT)
+        multiplier = get_config_value(session, 'multiplier', C.MULTIPLIER)
+        n_players = get_config_value(session, 'players_per_group', C.PLAYERS_PER_GROUP)
+        
+        # Calcular MPCR para mostrar
+        mpcr = round(multiplier / n_players, 2)
+        
         return dict(
-            treatment=treatment,
+            endowment=endowment,
             multiplier=multiplier,
+            n_players=n_players,
             mpcr=mpcr,
-            endowment=C.ENDOWMENT,
-            players_per_group=note_players_per_group,
         )
+
 
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
