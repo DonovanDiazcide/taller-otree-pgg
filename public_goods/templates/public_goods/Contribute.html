@@ -1,0 +1,32 @@
+{{ extends "global/Page.html" }}
+{{ block title }}
+    Contribución al Fondo Común
+{{ endblock }}
+{{ block content }}
+<div class="contribute-page">
+    
+    <div style="background-color: #e3f2fd; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+        <h4>Información del Tratamiento</h4>
+        <ul>
+            <li><strong>Tu dotación:</strong> {{ endowment }} puntos</li>
+            <li><strong>Jugadores en tu grupo:</strong> {{ n_players }}</li>
+            <li><strong>Multiplicador del fondo:</strong> {{ multiplier }}</li>
+            <li><strong>MPCR:</strong> {{ mpcr }}</li>
+        </ul>
+    </div>
+    
+    <p>
+        Tienes <strong>{{ endowment }} puntos</strong>. 
+        ¿Cuántos quieres contribuir al fondo común?
+    </p>
+    
+    <p>
+        Las contribuciones se multiplicarán por <strong>{{ multiplier }}</strong> 
+        y se dividirán entre los {{ n_players }} jugadores.
+    </p>
+    
+    {{ formfields }}
+    
+    {{ next_button }}
+</div>
+{{ endblock }}
