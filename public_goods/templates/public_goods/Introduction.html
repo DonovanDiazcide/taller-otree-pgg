@@ -1,5 +1,5 @@
 {{ block title }}
-    Introduction 
+    Introducción
 {{ endblock }}
 
 {{ block content }}
@@ -12,38 +12,40 @@
     -->
 
 <p>
-   In this experiment, you will participate in a <strong>public goods game</strong>
-        with <strong>{{ C.PLAYERS_PER_GROUP }}</strong> players in your group.
+    En este experimento, participarás en un <strong>juego de bienes públicos</strong>
+    con <strong>{{ C.PLAYERS_PER_GROUP }}</strong> jugadores en tu grupo.
 </p>
 
 <p>
-    At the beginning of each round, every player receives an endowment of
-        <strong>{{ C.ENDOWMENT }}</strong>.
-        You must decide how much of this endowment to contribute to a common project.
+    Al inicio de cada ronda, cada jugador recibe una dotación de
+    <strong>{{ C.ENDOWMENT }}</strong>.
+    Debes decidir cuánto de esta dotación deseas contribuir a un proyecto común.
 </p>
 
 <p>
-    The total contribution of all group members is multiplied by
-        <strong>{{ C.MULTIPLIER }}</strong>
-        and then divided equally among all players, regardless of their individual contribution.
+    La contribución total de todos los miembros del grupo se multiplica por
+    <strong>{{ C.MULTIPLIER }}</strong>
+    y luego se divide en partes iguales entre todos los jugadores, independientemente
+    de su contribución individual.
 </p>
 
 <p>
-    Your payoff in each round is calculated as:
+    Tu pago en cada ronda se calcula de la siguiente manera:
 </p>  
-<ul>
-        <li>
-            Your remaining endowment
-            (<strong>{{ C.ENDOWMENT }}</strong> minus your contribution)
-        </li>
-        <li>
-            Plus your share of the public good
-        </li>
-    </ul>
 
-    <p>
-        Please read the instructions carefully before continuing.
-    </p>
+<ul>
+    <li>
+        Tu dotación restante
+        (<strong>{{ C.ENDOWMENT }}</strong> menos tu contribución)
+    </li>
+    <li>
+        Más tu parte del bien público
+    </li>
+</ul>
+
+<p>
+    Por favor, lee cuidadosamente las instrucciones antes de continuar.
+</p>
 
     <!--
         next_button es un componente estándar de oTree.
