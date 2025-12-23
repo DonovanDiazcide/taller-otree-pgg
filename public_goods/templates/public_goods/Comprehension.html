@@ -1,0 +1,23 @@
+{{ extends "global/Page.html" }}
+
+{{ block title }}
+Preguntas de comprensión
+{{ endblock }}
+
+{{ block content }}
+
+    <!--
+    Template de la página de comprensión.
+    Muestra las preguntas definidas en la clase Player.
+    No afecta los pagos del participante.
+    -->
+
+    <p>
+        Responde las siguientes preguntas antes de continuar.
+    </p>
+
+    {{ formfields }}
+
+    {{ next_button }}
+
+{{ endblock }}

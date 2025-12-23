@@ -3,7 +3,7 @@ from otree.api import *
 class C(BaseConstants):
     NAME_IN_URL = 'public_goods_simple'
     PLAYERS_PER_GROUP = 3
-    NUM_ROUNDS = 1
+    NUM_ROUNDS = 4
     ENDOWMENT = cu(100)
     MULTIPLIER = 1.8
 
@@ -18,10 +18,37 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    # Campo de contribución (ya existente)
     contribution = models.CurrencyField(
-        min=0, max=C.ENDOWMENT, label="How much will you contribute?"
+        min=0,
+        max=C.ENDOWMENT,
+        label="¿Cuánto quieres contribuir al fondo común?"
     )
-
+    
+    # NUEVOS CAMPOS: Preguntas de comprensión
+    comp_q1 = models.IntegerField(
+        label="¿Cuántos puntos recibe cada jugador al inicio de la ronda?"
+    )
+    
+    comp_q2 = models.IntegerField(
+        label="Si los 3 jugadores contribuyen 50 puntos cada uno, ¿cuánto habrá en el fondo común ANTES de multiplicar?",
+        choices=[
+            [50, '50 puntos'],
+            [100, '100 puntos'],
+            [150, '150 puntos'],
+            [200, '200 puntos'],
+        ]
+    )
+    
+    comp_q3 = models.IntegerField(
+        label="Si el fondo común tiene 300 puntos después de multiplicar, ¿cuánto recibe CADA jugador del fondo?",
+        choices=[
+            [50, '50 puntos'],
+            [100, '100 puntos'],
+            [150, '150 puntos'],
+            [300, '300 puntos'],
+        ]
+    )
 
 # FUNCTIONS
 def set_payoffs(group: Group):
@@ -36,6 +63,36 @@ def set_payoffs(group: Group):
 
 
 # PAGES
+class Introduction(Page):
+    pass
+
+class Comprehension(Page):
+    """Página de preguntas de comprensión con validación"""
+    form_model = 'player'
+    form_fields = ['comp_q1', 'comp_q2', 'comp_q3']
+    
+    @staticmethod
+    def error_message(player, values):
+        # Respuestas correctas
+        soluciones = {
+            'comp_q1': 100,  # Dotación inicial
+            'comp_q2': 150,  # 3 jugadores × 50 = 150
+            'comp_q3': 100,  # 300 ÷ 3 = 100
+        }
+        
+        errores = []
+        
+        if values['comp_q1'] != soluciones['comp_q1']:
+            errores.append("Pregunta 1: La respuesta correcta es 100 puntos.")
+        
+        if values['comp_q2'] != soluciones['comp_q2']:
+            errores.append("Pregunta 2: Recuerda que hay 3 jugadores y cada uno contribuye 50.")
+        
+        if values['comp_q3'] != soluciones['comp_q3']:
+            errores.append("Pregunta 3: El fondo se divide equitativamente entre los 3 jugadores.")
+        
+        if errores:
+            return ' '.join(errores)
 class Contribute(Page):
     form_model = 'player'
     form_fields = ['contribution']
@@ -49,4 +106,6 @@ class Results(Page):
     pass
 
 
-page_sequence = [Contribute, ResultsWaitPage, Results]
+
+
+page_sequence = [Introduction, Comprehension, Contribute, ResultsWaitPage, Results]

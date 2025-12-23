@@ -1,0 +1,54 @@
+{{ block title }}
+    Introduction 
+{{ endblock }}
+
+{{ block content }}
+
+    <!--
+        Este template introduce el juego de bienes públicos. 
+        Sigue la convención estándar de oTree:
+        - block title: título de la página
+        - block content: contenido principal
+    -->
+
+<p>
+   In this experiment, you will participate in a <strong>public goods game</strong>
+        with <strong>{{ C.PLAYERS_PER_GROUP }}</strong> players in your group.
+</p>
+
+<p>
+    At the beginning of each round, every player receives an endowment of
+        <strong>{{ C.ENDOWMENT }}</strong>.
+        You must decide how much of this endowment to contribute to a common project.
+</p>
+
+<p>
+    The total contribution of all group members is multiplied by
+        <strong>{{ C.MULTIPLIER }}</strong>
+        and then divided equally among all players, regardless of their individual contribution.
+</p>
+
+<p>
+    Your payoff in each round is calculated as:
+</p>  
+<ul>
+        <li>
+            Your remaining endowment
+            (<strong>{{ C.ENDOWMENT }}</strong> minus your contribution)
+        </li>
+        <li>
+            Plus your share of the public good
+        </li>
+    </ul>
+
+    <p>
+        Please read the instructions carefully before continuing.
+    </p>
+
+    <!--
+        next_button es un componente estándar de oTree.
+        Permite avanzar a la siguiente página del experimento.
+    -->
+    {{ next_button }}
+
+{{ endblock }}
