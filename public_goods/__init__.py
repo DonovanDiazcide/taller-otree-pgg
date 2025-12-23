@@ -51,15 +51,24 @@ class Player(BasePlayer):
     )
 
 # FUNCTIONS
+def get_config_value(session, key, default):
+    return session.config.get(key, default)
+
 def set_payoffs(group: Group):
+    session = group.session
+    
+    endowment = get_config_value(session, 'endowment', C.ENDOWMENT)
+    multiplier = get_config_value(session, 'multiplier', C.MULTIPLIER)
+    n_players = get_config_value(session, 'players_per_group', C.PLAYERS_PER_GROUP)
+    
     players = group.get_players()
     contributions = [p.contribution for p in players]
+    
     group.total_contribution = sum(contributions)
-    group.individual_share = (
-        group.total_contribution * C.MULTIPLIER / C.PLAYERS_PER_GROUP
-    )
+    group.individual_share = (group.total_contribution * multiplier) / n_players
+    
     for p in players:
-        p.payoff = C.ENDOWMENT - p.contribution + group.individual_share
+        p.payoff = endowment - p.contribution + group.individual_share
 
 
 # PAGES
@@ -94,8 +103,27 @@ class Comprehension(Page):
         if errores:
             return ' '.join(errores)
 class Contribute(Page):
+    """Página donde el jugador decide su contribución"""
     form_model = 'player'
     form_fields = ['contribution']
+    
+    @staticmethod
+    def vars_for_template(player):
+        """Pasa los parámetros del tratamiento al template"""
+        session = player.session
+        endowment = get_config_value(session, 'endowment', C.ENDOWMENT)
+        multiplier = get_config_value(session, 'multiplier', C.MULTIPLIER)
+        n_players = get_config_value(session, 'players_per_group', C.PLAYERS_PER_GROUP)
+        
+        # Calcular MPCR para mostrar
+        mpcr = round(multiplier / n_players, 2)
+        
+        return dict(
+            endowment=endowment,
+            multiplier=multiplier,
+            n_players=n_players,
+            mpcr=mpcr,
+        )
 
 
 class ResultsWaitPage(WaitPage):

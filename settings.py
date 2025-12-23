@@ -1,6 +1,5 @@
 from os import environ
 
-
 SESSION_CONFIGS = [
     dict(
         name='public_goods',
@@ -8,6 +7,26 @@ SESSION_CONFIGS = [
         app_sequence=['public_goods'],
         num_demo_participants=3,
     ),
+      dict(
+       name='public_goods_high_mpcr',
+        display_name='Public Goods (High MPCR)',
+        num_demo_participants=3,
+        app_sequence=['public_goods'],
+
+        endowment=100, 
+        multiplier=2.0,
+        players_per_group=3, 
+    ),
+        dict(
+        name='public_goods_low_mpcr',
+        display_name='Public Goods (Low MPCR)',
+        num_demo_participants=3,
+        app_sequence=['public_goods'],
+        endowment=100,
+        multiplier=1.2,
+        players_per_group=3,
+    ),
+
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
