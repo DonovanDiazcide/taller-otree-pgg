@@ -1,23 +1,28 @@
 {{ extends "global/Page.html" }}
-
-{{ block title }}
-Preguntas de comprensión
-{{ endblock }}
+    {{ block title }}
+        Preguntas de Comprensión
+    {{ endblock }}
 
 {{ block content }}
+<div class="comprehension">
+    <p>Por favor responde las siguientes preguntas para verificar que entendiste las instrucciones.</p>
+    <p><em>Debes responder correctamente todas las preguntas para continuar.</em></p>
+    
+    <div style="margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px;">
+        <strong>Pregunta 1:</strong>
+        {{ formfield 'comp_q1' }}
+    </div>
+    
+    <div style="margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px;">
+        <strong>Pregunta 2:</strong>
+        {{ formfield 'comp_q2' }}
+    </div>
+    
+    <div style="margin: 20px 0; padding: 15px; background-color: #f9f9f9; border-radius: 5px;">
+        <strong>Pregunta 3:</strong>
+        {{ formfield 'comp_q3' }}
+    </div>
+</div>
 
-    <!--
-    Template de la página de comprensión.
-    Muestra las preguntas definidas en la clase Player.
-    No afecta los pagos del participante.
-    -->
-
-    <p>
-        Responde las siguientes preguntas antes de continuar.
-    </p>
-
-    {{ formfields }}
-
-    {{ next_button }}
-
+{{ next_button }}
 {{ endblock }}
